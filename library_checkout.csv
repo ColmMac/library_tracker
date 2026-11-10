@@ -1,0 +1,5 @@
+book_title,borrower_name,checkout_date,days_kept
+The Hobbit,Alice,2025-11-01,14
+Python Programming,Bob,2025-11-03,21
+Data Structures,Charlie,2025-11-04,7
+Clean Code,Alice,2025-11-05,30
