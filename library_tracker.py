@@ -2,6 +2,8 @@ import csv
 import sys
 import math
 
+MAX_LOAN_DAYS = 14
+
 def load_checkouts() -> list[dict]:
     """Reads library_checkouts.csv and returns a list of checkout records.
     
@@ -42,3 +44,18 @@ def overdue_checkouts(checkouts: list[dict]) -> list[tuple[str, str, int]]:
                 if row["days_kept"] > MAX_LOAN_DAYS
                 ]
     return overdue
+
+def calculate_average_duration(checkouts: list[dict]) -> float:
+    """Computes the average checkout duration across all records.
+    
+    Expects:
+        checkouts (list[dict]): List of checkout dictionaries.
+        
+    Returns:
+        float: Mean days kept, or 0.0 if empty.
+    """
+    if not checkouts:
+        return 0.0
+
+    total_days = sum(rows["days_kept"] for row in checkouts)
+    return total_days / len(checkouts)
