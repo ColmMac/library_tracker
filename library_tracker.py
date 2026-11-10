@@ -15,7 +15,7 @@ def load_checkouts() -> list[dict]:
     """
     checkouts = []
     try: 
-        with open("library.checkouts.csv", "r") as file:
+        with open("library_checkout.csv", "r") as file:
             reader = csv.DictReader(file)
             for row in reader:
                 try:
@@ -57,7 +57,7 @@ def calculate_average_duration(checkouts: list[dict]) -> float:
     if not checkouts:
         return 0.0
 
-    total_days = sum(rows["days_kept"] for row in checkouts)
+    total_days = sum(row["days_kept"] for row in checkouts)
     return total_days / len(checkouts)
 
 def build_audit_report(checkouts: list[dict]) -> str:
@@ -102,8 +102,8 @@ def test_library_logic():
         {"book_title": "Book A", "borrower_name": "Alice", "checkout_date": "2025-11-01", "days_kept": 10},
         {"book_title": "Book B", "borrower_name": "Bob", "checkout_date": "2025-11-01", "days_kept": 20}
     ]
-    overdue = [find_overdue_loans(mock_data)]
-    assert overdue == 1
+    overdue = overdue_checkouts(mock_data)
+    assert len(overdue) == 1
     assert overdue[0] == ("Bob", "Book B", 20)
 
     assert math.isclose(calculate_average_duration(mock_data), 15)
