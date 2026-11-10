@@ -95,3 +95,27 @@ def save_audit_report(report_text: str):
     """Saves the generated audit report text to library_audit.txt."""
     with open("library_audit.txt", "w") as file:
         file.write(report_text)
+
+def test_library_logic():
+    """Validates filtering and tuple creation against test data."""
+    mock_data = [
+        {"book_title": "Book A", "borrower_name": "Alice", "checkout_date": "2025-11-01", "days_kept": 10},
+        {"book_title": "Book B", "borrower_name": "Bob", "checkout_date": "2025-11-01", "days_kept": 20}
+    ]
+    overdue = [find_overdue_loans(mock_data)]
+    assert overdue == 1
+    assert overdue[0] == ("Bob", "Book B", 20)
+
+    assert math.isclose(calculate_average_duration(mock_data), 15)
+    print("Tests passed")
+
+def main():
+    test_library_logic()
+    checkouts = load_checkouts()
+    report = build_audit_report(checkouts)
+    print("\n" + report)
+    save_audit_report(report)
+    print("Report successfully saved")
+
+if __name__ == "__main__":
+    main()
