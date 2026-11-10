@@ -2,7 +2,7 @@ import csv
 import sys
 import math
 
-def load_checkouts():
+def load_checkouts() -> list[dict]:
     """Reads library_checkouts.csv and returns a list of checkout records.
     
     Expects:
@@ -28,7 +28,7 @@ def load_checkouts():
         sys.exit(1)
     return checkouts
 
-def overdue_checkouts(checkouts):
+def overdue_checkouts(checkouts: list[dict]) -> list[tuple[str, str, int]]:
     """Filters books kept longer than MAX_LOAN_DAYS and groups them as tuples.
     
     Expects:
@@ -37,4 +37,8 @@ def overdue_checkouts(checkouts):
     Returns:
         list[tuple[str, str, int]]: A list of (borrower_name, book_title, days_kept) tuples.
     """
-    overdue = [(row["borrower_name"], row["book_title"], row["days_kept"])]
+    overdue = [(row["borrower_name"], row["book_title"], row["days_kept"])
+               for row in checkouts
+                if row["days_kept"] > MAX_LOAN_DAYS
+                ]
+    return overdue
